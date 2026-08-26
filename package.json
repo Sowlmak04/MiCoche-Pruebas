@@ -1,0 +1,14 @@
+{
+  "name": "mi-coche",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply mi-coche-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply mi-coche-db --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
