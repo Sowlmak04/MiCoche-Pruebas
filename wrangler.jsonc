@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "mi-coche",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-08-26",
+
+  "assets": {
+    "directory": "./public",
+    "run_worker_first": ["/api/*"]
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mi-coche-db",
+      "database_id": "da6faf0b-7ff5-42b8-a566-ad82a084c99a"
+    }
+  ],
+
+  "secrets": {
+    "required": ["TOKEN_ADRI", "TOKEN_LAURA"]
+  }
+}
