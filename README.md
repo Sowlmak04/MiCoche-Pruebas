@@ -195,3 +195,4 @@ Si en una actualización futura necesitas forzar una renovación completa de arc
 - seguimiento en segundo plano
 - sincronización offline
 - NFC hasta validar PWA + API
+
