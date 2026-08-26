@@ -15,9 +15,5 @@
       "database_name": "mi-coche-db",
       "database_id": "da6faf0b-7ff5-42b8-a566-ad82a084c99a"
     }
-  ],
-
-  "secrets": {
-    "required": ["TOKEN_ADRI", "TOKEN_LAURA"]
-  }
+  ]
 }
