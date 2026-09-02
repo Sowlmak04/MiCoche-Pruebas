@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101012">
+  <meta name="color-scheme" content="dark">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mi Coche">
+
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'self';"
+  >
+
+  <title>Mi Coche</title>
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="icon" href="/icons/icon-192.png">
+
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-header">
+      <h1>¿Y MI COCHE?</h1>
+      <div class="car-mark" aria-hidden="true">
+        <svg viewBox="0 0 96 60" focusable="false">
+          <path d="M24 23.5 29.5 12c1.5-3.1 4.7-5 8.1-5h20.8c3.4 0 6.6 1.9 8.1 5L72 23.5l9.8 3.8c3.1 1.2 5.2 4.2 5.2 7.6v11.6c0 3.6-2.9 6.5-6.5 6.5h-4.1a8.2 8.2 0 0 1-15.8 0H35.4a8.2 8.2 0 0 1-15.8 0h-4.1C11.9 53 9 50.1 9 46.5V34.9c0-3.4 2.1-6.4 5.2-7.6l9.8-3.8Zm9.6-8.4-3.7 7.7h36.2l-3.7-7.7a4.5 4.5 0 0 0-4-2.5H37.6a4.5 4.5 0 0 0-4 2.5Z"/>
+          <path d="M20.5 34.5c0 3.2 2.6 5.8 5.8 5.8s5.8-2.6 5.8-5.8-2.6-5.8-5.8-5.8-5.8 2.6-5.8 5.8Zm43.4 0c0 3.2 2.6 5.8 5.8 5.8s5.8-2.6 5.8-5.8-2.6-5.8-5.8-5.8-5.8 2.6-5.8 5.8Z"/>
+          <path d="M37 34h22l-3.6 6.6H40.6L37 34Z"/>
+        </svg>
+      </div>
+    </header>
+
+    <section id="loading-view" class="view" aria-live="polite">
+      <p class="muted">Cargando…</p>
+    </section>
+
+    <section id="auth-view" class="view hidden" aria-labelledby="auth-title">
+      <div class="panel">
+        <h2 id="auth-title">Autorizar este iPhone</h2>
+        <p class="muted">
+          Introduce el código de este dispositivo. Solo tendrás que hacerlo una vez mientras siga autorizado.
+        </p>
+
+        <form id="auth-form" class="stack">
+          <label for="device-token">Código del dispositivo</label>
+          <input
+            id="device-token"
+            name="token"
+            type="password"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            required
+          >
+          <button id="auth-button" class="button primary" type="submit">Autorizar</button>
+        </form>
+
+        <p id="auth-message" class="status-message" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="empty-view" class="view hidden">
+      <div class="parking-info">
+        <p class="eyebrow">Último aparcamiento</p>
+        <h2>No hay ninguna ubicación guardada</h2>
+        <p class="muted">Guarda la ubicación actual para empezar.</p>
+      </div>
+
+      <div class="actions">
+        <button class="button primary save-button" type="button">Guardar aquí</button>
+      </div>
+    </section>
+
+    <section id="parking-view" class="view hidden">
+      <article class="parking-card">
+        <div class="parking-card-content">
+          <p class="eyebrow">Último aparcamiento</p>
+          <p id="parked-date" class="parked-date"></p>
+          <p id="parked-age" class="parked-age"></p>
+          <p id="saved-by" class="saved-by"></p>
+        </div>
+        <button id="delete-button" class="delete-button" type="button" aria-label="Eliminar ubicación del coche" title="Eliminar ubicación">
+          <span class="trash-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M9 4.5h6M10 3h4c.55 0 1 .45 1 1v.5H9V4c0-.55.45-1 1-1Z"/>
+            <path d="M5.5 6.5h13"/>
+            <path d="M7 8l.7 11.2c.06.99.88 1.8 1.87 1.8h4.86c.99 0 1.81-.81 1.87-1.8L17 8"/>
+            <path d="M10 10.5v7M14 10.5v7"/>
+          </svg>
+        </span>
+        </button>
+      </article>
+
+      <div class="actions">
+        <button id="directions-button" class="button primary" type="button">Cómo llegar</button>
+        <button class="button secondary save-button" type="button">Guardar aquí</button>
+      </div>
+    </section>
+
+    <section id="error-view" class="view hidden">
+      <div class="panel">
+        <h2>No se pudo cargar el último aparcamiento</h2>
+        <p class="muted">Comprueba la conexión y vuelve a intentarlo.</p>
+        <button id="retry-button" class="button secondary" type="button">Reintentar</button>
+      </div>
+    </section>
+
+    <p id="global-status" class="global-status" role="status" aria-live="polite"></p>
+  </main>
+
+  <div id="save-success-dialog" class="dialog-backdrop success-dialog-backdrop hidden" role="presentation">
+    <div class="dialog success-dialog" role="status" aria-live="assertive" aria-atomic="true">
+      <div class="success-dialog-icon" aria-hidden="true">✓</div>
+      <h2>Ubicación guardada</h2>
+      <p class="muted">La ubicación actual del coche se ha guardado correctamente.</p>
+    </div>
+  </div>
+
+  <div id="delete-dialog" class="dialog-backdrop hidden" role="presentation">
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="delete-title" aria-describedby="delete-description">
+      <h2 id="delete-title">¿Eliminar este aparcamiento?</h2>
+      <p id="delete-description" class="muted">Dejará de aparecer como ubicación actual del coche.</p>
+      <div class="dialog-actions">
+        <button id="cancel-delete-button" class="button secondary" type="button">Cancelar</button>
+        <button id="confirm-delete-button" class="button danger" type="button">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
